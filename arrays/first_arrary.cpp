@@ -1,0 +1,11 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main (){
+    string cars[5] = {"Volvo", "BMW", "Audi", "Tata", "Tesla"};
+    for (int i = 0; i < 5; i++){
+        cout << cars[i] <<"\n";
+    }
+    return 0;
+}

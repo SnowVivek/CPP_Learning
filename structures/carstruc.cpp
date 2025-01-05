@@ -25,5 +25,7 @@ int main(){
 
     cout << car1.brand << "\n";
 
+    cout << "Press Enter to exit...";
+    cin.get();  // Wait for user input
     return 0;
 }

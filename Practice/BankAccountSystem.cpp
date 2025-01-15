@@ -7,21 +7,22 @@ using namespace std;
 class BankAccount {
 private:
     string accountHolder; // Name of the account holder
-    double balance; // Account balance
-    
+    double balance;       // Account balance
+
 public:
-     // Constructor to init the account
-    BankAccount(string name, double initialDeposit){
+    // Constructor to initialize the account
+    BankAccount(string name, double initialDeposit) {
         accountHolder = name;
         balance = initialDeposit;
-        }
-    
-    void displayAccountDetail(){
+    }
+
+    void displayAccountDetail() {
+        cout << "\n--- Account Details ---\n";
         cout << "Account Holder: " << accountHolder << endl;
         cout << "Balance: $" << balance << endl;
     }
 
-    void deposit(double amount){
+    void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
             cout << "Deposited: $" << amount << endl;
@@ -30,28 +31,31 @@ public:
         }
     }
 
-    void withdraw(double amount){
-        if (amount > 0 && amount <= balance){
+    void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
             balance -= amount;
             cout << "Withdrawn: $" << amount << endl;
+        } else if (amount > balance) {
+            cout << "Insufficient balance!" << endl;
         } else {
-            cout << "Invalid withdrawal amout or insufficient balance!" << endl;
+            cout << "Invalid withdrawal amount!" << endl;
         }
     }
 
-    double getBalance(){
+    double getBalance() {
         return balance;
     }
 };
 
-int main(){
+int main() {
     string name;
     double initialDeposit;
-    cout << "Enter your name: ";
-    cin.ignore();
-   getline(cin, name);
 
-       // Get the initial deposit
+    // Get account holder name
+    cout << "Enter your name: ";
+    getline(cin, name);
+
+    // Get the initial deposit
     while (true) {
         cout << "Initial deposit: ";
         cin >> initialDeposit;
@@ -65,7 +69,6 @@ int main(){
         }
     }
 
-    
     BankAccount account(name, initialDeposit);
 
     int choice;
@@ -78,34 +81,52 @@ int main(){
         cout << "Enter your choice: ";
         cin >> choice;
 
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input! Please enter a number between 1 and 4." << endl;
+            continue;
+        }
+
         switch (choice) {
             case 1: {
                 double amount;
                 cout << "Enter amount to deposit: ";
                 cin >> amount;
-                account.deposit(amount);
+
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid amount! Please enter a valid number." << endl;
+                } else {
+                    account.deposit(amount);
+                }
                 break;
             }
             case 2: {
                 double amount;
-                cout << "Enter amout to withdraw: ";
+                cout << "Enter amount to withdraw: ";
                 cin >> amount;
-                account.withdraw(amount);
+
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid amount! Please enter a valid number." << endl;
+                } else {
+                    account.withdraw(amount);
+                }
                 break;
             }
-            case 3: {
+            case 3:
                 account.displayAccountDetail();
                 break;
-            }
-            case 4: {
-                cout << "Thank you for using the Bank Account System, Goodbye!" << endl;
+            case 4:
+                cout << "Thank you for using the Bank Account System. Goodbye!" << endl;
                 break;
-            }
             default:
-                cout << "Invalid choice! Please try again." << endl;
-    
+                cout << "Invalid choice! Please enter a number between 1 and 4." << endl;
         }
-    }while (choice !=4);
+    } while (choice != 4);
 
     return 0;
 }
